@@ -1,289 +1,122 @@
----
----
-
-//
-// IMPORTS
-//
-
-@import "reset";
-@import "variables";
-// Syntax highlighting @import is at the bottom of this file
-
-/**************/
-/* BASE RULES */
-/**************/
-
-html {
-  font-size: 100%;
+/* * 这是CSS的“变量”定义区，方便统一修改颜色和字体。
+ * --main-hue: 定义了主色调的色相（235是蓝色系）。
+ * --main-sat: 饱和度。
+ * --txt-bright, --txt-dim, --txt-faint: 定义了不同强度的文字颜色。
+ * --bg-*: 定义了不同层次的背景色。
+ * --font-*: 定义了字体族。
+ */
+ :root {
+  --main-hue: 235;
+  --main-sat: 12%;
+  --txt-bright: hsl(var(--main-hue), 8%, 95%);
+  --txt-dim: hsl(var(--main-hue), 8%, 75%);
+  --txt-faint: hsl(var(--main-hue), 8%, 55%);
+  --bg-main: hsl(var(--main-hue), var(--main-sat), 12%);
+  --bg-dim: hsl(var(--main-hue), var(--main-sat), 16%);
+  --bg-faint: hsl(var(--main-hue), var(--main-sat), 20%);
+  --border: hsl(var(--main-hue), var(--main-sat), 24%);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Menlo', 'Monaco', 'Consolas',
+    'Courier New', monospace;
 }
 
+/* * 作用于整个页面的 <body> 元素
+ */
 body {
-	background: $white;
-  font: 18px/1.4 $helvetica;
-  color: $darkGray;
+  font-family: var(--font-sans); /* 使用上面定义的无衬线字体 */
+  background-color: var(--bg-main); /* 深色背景 */
+  color: var(--txt-dim); /* 默认文字颜色，不是纯白，而是柔和的灰色 */
+  line-height: 1.75; /* 1.75倍行高，阅读体验极佳 */
+  -webkit-font-smoothing: antialiased; /* 在Mac和iOS上让字体更平滑锐利 */
+  text-rendering: optimizeLegibility; /* 优化文字的易读性 */
 }
 
-.container {
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 0 10px;
-  width: 100%;
+/* * .prose 是文章内容区域的总容器 
+ */
+ .prose {
+  max-width: 80ch; /* 限制每行最大字符数在80个左右，这是公认的最佳阅读宽度 */
+  margin-left: auto; /* 左右居中 */
+  margin-right: auto;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: $helveticaNeue;
-  color: $darkerGray;
-  font-weight: bold;
-
-  line-height: 1.7;
-  margin: 1em 0 15px;
-  padding: 0;
-
-  @include mobile {
-    line-height: 1.4;
-  }
+/* 标题样式 (h1, h2, h3) */
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: var(--txt-bright); /* 标题用更亮的颜色突出 */
+  font-weight: 700; /* 字体加粗 */
+  letter-spacing: -0.02em; /* 轻微的字间距收缩，让标题更紧凑 */
 }
 
-h1 {
-  font-size: 30px;
-  a {
-    color: inherit;
-  }
+/* 段落样式 (p) */
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
 }
 
-h2 {
-  font-size: 24px;
+/* 链接样式 (a) */
+.prose a {
+  color: var(--txt-bright);
+  font-weight: 500;
+  text-decoration: underline; /* 带下划线 */
+  text-decoration-color: var(--border); /* 下划线颜色浅一些 */
+  text-underline-offset: 4px; /* 下划线和文字之间留点空隙 */
+  transition: all 0.2s ease-in-out; /* 添加一个过渡效果 */
 }
 
-h3 {
-  font-size: 20px;
+.prose a:hover {
+  color: #fff; /* 鼠标悬停时文字变纯白 */
+  text-decoration-color: var(--txt-bright); /* 下划线也变亮 */
 }
 
-h4 {
-  font-size: 18px;
-  color: $gray;
+/* 列表样式 (ul, ol) */
+.prose ul,
+.prose ol {
+  padding-left: 1.5em;
 }
 
-p {
-  margin: 15px 0;
+/* * pre 标签是代码块的容器 
+ */
+ .prose pre {
+  background-color: var(--bg-dim); /* 代码块背景色，比主背景稍亮 */
+  border: 1px solid var(--border); /* 1像素的边框 */
+  border-radius: 0.5rem; /* 8px的圆角，非常关键！ */
+  padding: 1rem; /* 内边距 */
+  overflow-x: auto; /* 如果代码太长，允许横向滚动 */
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* 轻微的阴影，增加立体感 */
 }
 
-a {
-  color: $blue;
-  text-decoration: none;
-	cursor: pointer;
-  &:hover, &:active {
-    color: $blue;
-  }
+/* * code 标签是代码本身 
+ */
+.prose pre code {
+  font-family: var(--font-mono); /* 使用上面定义的等宽字体 */
+  font-size: 0.9em; /* 代码字号可以比正文稍小 */
 }
 
-ul, ol {
-  margin: 15px 0;
-  padding-left: 30px;
+/* 行内代码样式，比如 `const a = 1;` 这种在段落里的代码 */
+.prose :not(pre) > code {
+  background-color: var(--bg-faint);
+  color: var(--txt-bright);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem; /* 小圆角 */
+  font-family: var(--font-mono);
+  font-size: 0.85em;
 }
 
-ul {
-  list-style-type: disc;
+/* * blockquote 是引用块 
+ */
+ .prose blockquote {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  padding-left: 1em; /* 左边留出内边距 */
+  border-left: 0.25rem solid var(--border); /* 左边有一条4px的竖线，这是引用块的经典标志 */
+  color: var(--txt-faint); /* 引用文字的颜色更暗淡，以示区别 */
 }
 
-ol {
-  list-style-type: decimal;
+/* 引用块里的段落，去掉默认的上下边距，让排版更紧凑 */
+.prose blockquote p {
+  margin-top: 0;
+  margin-bottom: 0;
 }
-
-ol ul, ul ol, ul ul, ol ol {
-  margin: 0;
-}
-
-ul ul, ol ul {
-  list-style-type: circle;
-}
-
-em, i {
-  font-style: italic;
-}
-
-strong, b {
-  font-weight: bold;
-}
-
-img {
-  max-width: 100%;
-}
-
-// Fixes images in popup boxes from Google Translate
-.gmnoprint img {
-  max-width: none;
-}
-
-.date {
-  font-style: italic;
-  color: $gray;
-}
-
-// Specify the color of the selection
-::-moz-selection {
-  color: $black;
-  background: $lightGray;
-}
-::selection {
-  color: $black;
-  background: $lightGray;
-}
-
-// Nicolas Gallagher's micro clearfix hack
-// http://nicolasgallagher.com/micro-clearfix-hack/
-.clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-/*********************/
-/* LAYOUT / SECTIONS */
-/*********************/
-
-//
-// .masthead
-//
-
-.wrapper-masthead {
-  margin-bottom: 50px;
-}
-
-.masthead {
-  padding: 20px 0;
-  border-bottom: 1px solid $lightGray;
-
-  @include mobile {
-    text-align: center;
-  }
-}
-
-.site-avatar {
-  float: left;
-  width: 70px;
-  height: 70px;
-  margin-right: 15px;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
-
-  img {
-    border-radius: 5px;
-  }
-}
-
-.site-info {
-  float: left;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
-}
-
-.site-name {
-  margin: 0;
-  color: $darkGray;
-  cursor: pointer;
-  font-family: $helveticaNeue;
-  font-weight: 300;
-  font-size: 28px;
-  letter-spacing: 1px;
-}
-
-.site-description {
-  margin: -5px 0 0 0;
-  color: $gray;
-  font-size: 16px;
-
-  @include mobile {
-    margin: 3px 0;
-  }
-}
-
-nav {
-  float: right;
-  margin-top: 23px; // @TODO: Vertically middle align
-  font-family: $helveticaNeue;
-  font-size: 18px;
-
-  @include mobile {
-    float: none;
-    margin-top: 9px;
-    display: block;
-    font-size: 16px;
-  }
-
-  a {
-    margin-left: 20px;
-    color: $darkGray;
-    text-align: right;
-    font-weight: 300;
-    letter-spacing: 1px;
-
-    @include mobile {
-      margin: 0 10px;
-      color: $blue;
-    }
-  }
-}
-
-//
-// .main
-//
-
-.posts > .post {
-  padding-bottom: 2em;
-  border-bottom: 1px solid $lightGray;
-}
-
-.posts > .post:last-child {
-  padding-bottom: 1em;
-  border-bottom: none;
-}
-
-.post {
-  blockquote {
-    margin: 1.8em .8em;
-    border-left: 2px solid $gray;
-    padding: 0.1em 1em;
-    color: $gray;
-    font-size: 22px;
-    font-style: italic;
-  }
-
-  .comments {
-    margin-top: 10px;
-  }
-
-  .read-more {
-    text-transform: uppercase;
-    font-size: 15px;
-  }
-}
-
-.wrapper-footer {
-  margin-top: 50px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
-}
-
-footer {
-  padding: 20px 0;
-  text-align: center;
-}
-
-// Settled on moving the import of syntax highlighting to the bottom of the CSS
-// ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
-@import "highlights";
-@import "svg-icons";
