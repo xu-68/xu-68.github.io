@@ -1,0 +1,22 @@
+<aside class="sidebar">
+    <header>
+      <div class="site-title">
+        <a href="{{ '/' | relative_url }}">{{ site.title | default: "My Awesome Blog" }}</a>
+      </div>
+      <p class="site-description">{{ site.description | default: "A blog about something cool." }}</p>
+    </header>
+  
+    <nav>
+      <ul class="nav-list">
+        <li><a href="{{ '/' | relative_url }}">Home</a></li>
+        <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+        </ul>
+    </nav>
+  
+    <footer>
+      <div class="social-links">
+        {% raw %}{% include svg-icons.html %}{% endraw %}
+      </div>
+      <small>&copy; {{ "now" | date: "%Y" }} {{ site.author.name | default: "Your Name" }}.</small>
+    </footer>
+  </aside>

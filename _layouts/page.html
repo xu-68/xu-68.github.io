@@ -1,12 +1,13 @@
+{% raw %}
 ---
 layout: default
 ---
 
-<article class="page">
+<article class="prose">
+  <header>
+    <h1>{{ page.title }}</h1>
+  </header>
 
-  <h1>{{ page.title }}</h1>
-
-  <div class="entry prose">
-    {{ content }}
-  </div>
+  {{ content }}
 </article>
+{% endraw %}
